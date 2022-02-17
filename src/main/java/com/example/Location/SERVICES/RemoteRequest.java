@@ -24,7 +24,7 @@ public class RemoteRequest {
     /////update function to location-menu api
     public Integer remote_update_location_menus(Remote_Put_Location_Menus_DTO remote_location_menus_dto) {
 
-//
+
         log.info("REMOTE REQUEST: ENTERED INTO THE REMOTE REQUEST remote_Update_LOCATION_MENU");
         HttpHeaders headers = getHeaders();
         RestTemplate restTemplate = new RestTemplate();
