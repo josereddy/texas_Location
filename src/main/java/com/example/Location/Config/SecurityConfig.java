@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and().httpBasic().and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
 
     }
-    ///
+    ///jose
 
 
     @Bean
