@@ -9,7 +9,6 @@ services:
     environment:
       DPSQL_HOSTNAME: psql
       MONGODB_HOSTNAME: mongodb
-      KAFKA-IP: 29092
     restart: always
     container_name: location
     image: jose737vijay/location
