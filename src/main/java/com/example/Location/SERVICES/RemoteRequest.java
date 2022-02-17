@@ -5,6 +5,7 @@ import com.example.Location.DTO.Remote_Put_Location_Menus_DTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,7 +22,8 @@ public class RemoteRequest {
         log.info("REMOTE REQUEST: ENTERED INTO THE REMOTE REQUEST remote_Update_LOCATION_MENU");
         HttpHeaders headers = getHeaders();
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8082/menus/put/update_location_menus";
+
+        String  url = "http://${MENUS_SERVER:localhost}:8082/menus/put/update_location_menus";
         System.out.println(url);
         HttpEntity<Remote_Put_Location_Menus_DTO> requestEntity = new HttpEntity<>(remote_location_menus_dto, headers);
         ResponseEntity<Integer> response_entity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Integer.class);
@@ -37,7 +39,7 @@ public class RemoteRequest {
         log.info("REMOTE REQUEST: ENTERED INTO THE REMOTE REQUEST DELETE_LOCATION_MENU");
         HttpHeaders headers = getHeaders();
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8082/menus/delete/delete_location_menus/" + code;
+        String url = "http://${MENUS_SERVER:localhost}:8082/menus/delete/delete_location_menus/" + code;
         System.out.println(url);
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<Integer> response_entity = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, Integer.class, 1);
