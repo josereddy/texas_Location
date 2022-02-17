@@ -17,8 +17,8 @@ spring:
 
 
 Remote:
-  url_update: http://${MENU_CONTAINER:localhost}:8082/menus/put/update_location_menus
-  url_delete: http://${MENU_CONTAINER:localhost}:8082/menus/delete/delete_location_menus/
+  url_update: http://${MENUS_SERVER:localhost}:8082/menus/put/update_location_menus
+  url_delete: http://${MENUS_SERVER:localhost}:8082/menus/delete/delete_location_menus/
 
 
 
