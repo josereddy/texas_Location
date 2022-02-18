@@ -3,7 +3,7 @@ spring:
     mongodb:
       host: ${MONGODB_HOSTNAME:localhost}
       port: 27017
-      database: project_final_local
+      database: project_final
       auto-index-creation: true
 
   datasource:
