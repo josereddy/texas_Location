@@ -3,7 +3,7 @@ spring:
     mongodb:
       host: ${MONGODB_HOSTNAME:localhost}
       port: 27017
-      database: project_final
+      database: project_final_local
       auto-index-creation: true
 
   datasource:
@@ -16,6 +16,12 @@ spring:
         ddl-auto: update
 
 
+Remote:
+  url_update: http://${MENUS_SERVER:localhost}:8086/menus/put/update_location_menus
+  url_delete: http://${MENUS_SERVER:localhost}:8086/menus/delete/delete_location_menus/
+
+
+
 server:
-  port: 8081
+  port: 8085
 
