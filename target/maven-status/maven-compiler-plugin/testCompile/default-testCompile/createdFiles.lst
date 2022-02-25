@@ -1,1 +1,3 @@
+com\example\Location\LOCATION_INTEGRATION_TETSING\Location_Integration_Testing.class
 com\example\Location\LocationApplicationTests.class
+com\example\Location\Service\CrudService_Test.class

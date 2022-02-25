@@ -36,28 +36,38 @@ import java.util.Set;
 
 
 @Component
-@NoArgsConstructor
+//@NoArgsConstructor
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 public class CrudServices {
 
+
+    public CrudServices(Location_Repository location_repository,Check_ConvertService cc_service
+    ,User_Data_Repository user_repository,RemoteRequest rr_service,Interceptor_Repository interceptor_repository)
+    {
+        this.location_repository = location_repository;
+        this.cc_service = cc_service;
+        this.user_repository = user_repository;
+        this.interceptor_repository = interceptor_repository;
+        this.rr_service =    rr_service;
+    }
 
     //logger
     private static final Logger log = LogManager.getLogger(CrudServices.class.getName());
 
 
     ///Repositories
-    @Autowired
+//    @Autowired
     private Location_Repository location_repository;
-    @Autowired
+//    @Autowired
     private User_Data_Repository user_repository;
-    @Autowired
+//    @Autowired
     private Interceptor_Repository interceptor_repository;
 
     //Services
-    @Autowired
+//    @Autowired
     private Check_ConvertService cc_service;
-    @Autowired
+//    @Autowired
     private RemoteRequest rr_service;
 
 
@@ -93,6 +103,9 @@ public class CrudServices {
     }
 
 
+
+
+
     //PAGINATION SERVICE
     public MappingJacksonValue findLocationsWithPaginationSorting_filtering_location(int offset, int pageSize, Optional<String> sort_field, Optional<Set<String>> filter_field) {
         log.info("CRUD_SERVICE: Entered into the Pagination And Sorting and filtering");
@@ -111,6 +124,8 @@ public class CrudServices {
 
     public MappingJacksonValue find_value_location(String value, Optional<String> search_field, Optional<Set<String>> filter_fields) {
         log.info("CRUD_SERVICE: Entered into the GET BY ID SERVICE");
+
+        System.out.println("inside the crud search");
         if (search_field.orElse("id").equals("restaurantcode")) {
             location_mdb = location_repository.findByRestaurantcode(value);
         } else if (search_field.orElse("id").equals("id")) {
@@ -122,7 +137,7 @@ public class CrudServices {
             location_mdb = location_optional.get();
 
         } else {
-            throw new NoFieldPresentException("Field:  " + search_field + " Not present please Select valid Field ex:id or restaurant_code");
+            throw new NoFieldPresentException("Field:  " + search_field.get() + " Not present please Select valid Field ex:id or restaurant_code");
         }
         if (location_mdb == null) {
             throw new UserNotFoundException("Cannot find the requested data for the given value: " + value);
@@ -214,6 +229,8 @@ public class CrudServices {
     //////////////getting interceptor data
     public Page<Interceptor_Data_DB> api_timing(int offset, int pageSize, String microservice) {
         log.info("CRUD_SERVICE: Entered into the api timing sender");
+
+        System.out.println("Inside the  crud service api timing call in get API call");
         Page<Interceptor_Data_DB> data = interceptor_repository.findByApiname(microservice, PageRequest.of(offset, pageSize));
         log.info("CRUD_SERVICE: Exited from the api timing sender");
         return data;
@@ -226,6 +243,8 @@ public class CrudServices {
 
 
         log.info("CRUD SERVICE: Inside the user signup service");
+
+        System.out.println("inside --------------------------------");
         user_db = cc_service.convertUser(user_data_dto);
         user_db.setUserpassword((new BCryptPasswordEncoder().encode(user_data_dto.getUser_password())));
         try {

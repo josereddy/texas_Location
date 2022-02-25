@@ -67,7 +67,7 @@ public class Location_Controller {
     @SecurityRequirement(name = "check")
     @PostMapping("/post/add_location")
     public String add_Location(@RequestBody Location_Post_DTO location_post_dto) {
-
+        System.out.println("hello---------------------->in only controller ");
         log.info("REST CALL: ENTERED ADD LOCATION DATA ");
         if (cr_service.save_location(location_post_dto)) {
             log.info("REST CALL: ADD LOCATION DATA Successfully EXITED ");
@@ -90,6 +90,8 @@ public class Location_Controller {
     private MappingJacksonValue getProductsWithPagination_SortAndFiltering(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize,
                                                                            @RequestParam("sort_field") Optional<String> sort_field, @RequestParam ("filter_fields") Optional<Set<String>> filter_fields) {
         log.info("REST CALL: Entered Pagination and Sorting and filtering");
+
+        System.out.println("filter_fields--->"+filter_fields);
         MappingJacksonValue location_list = cr_service.findLocationsWithPaginationSorting_filtering_location(offset, pageSize, sort_field, filter_fields);
         log.debug("REST CALL:Exited Pagination AND Sorting AND Filtering");
         return location_list;
@@ -104,9 +106,13 @@ public class Location_Controller {
     @Parameter(name = "search_field", example = "id", required = false, description = "Searching Field /default=id   /ex:id or restaurantcode  only ", in = ParameterIn.QUERY)
     @Parameter(name = "filter_fields", required = false, description = "Filtering Fields  /default=id   /ex:id,restaurantcode.....", in = ParameterIn.QUERY)
     @GetMapping("/get/search_location/{value}")
-    public MappingJacksonValue search_value_location(@PathVariable("value") String value, @RequestParam Optional<String> search_field,
-                                                     @RequestParam Optional<Set<String>> filter_fields) {
+    public MappingJacksonValue search_value_location(@PathVariable("value") String value, @RequestParam("search_field") Optional<String> search_field,
+                                                     @RequestParam("filter_fields")Optional<Set<String>> filter_fields) {
         log.info("REST API: Entered SEARCH Service");
+        System.out.println("value--->"+value);
+        System.out.println("search_field--->"+search_field);
+        System.out.println("filter_fields--->"+filter_fields);
+
         MappingJacksonValue location_list = cr_service.find_value_location(value, search_field, filter_fields);
         log.debug("REST API: Exited Search Service");
         return location_list;
@@ -152,6 +158,7 @@ public class Location_Controller {
     public Page<Interceptor_Data_DB> get_api_timing(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize
             , @RequestParam("Microservice") String microservice) {
         log.info("REST API:Entered into Api TIME sender");
+        System.out.println("Inside the api timing call in get API call");
         Page<Interceptor_Data_DB> data = cr_service.api_timing(offset, pageSize, microservice);
         log.debug("REST API:Exited FROM API TIME SENDER");
         return data;
@@ -166,10 +173,10 @@ public class Location_Controller {
 
         log.info("CRUD_SERVICE: Entered into the User Sign up API");
         if (cr_service.addUser(user)) {
-            log.debug("CRUD_SERVICE: Exited successfully from  the  sign up API");
+            log.info("CRUD_SERVICE: Exited successfully from  the  sign up API");
             return "Data Successfully Added";
         } else {
-            log.debug("CRUD_SERVICE: Exited Un-successfully from  the  sign up API");
+            log.info("CRUD_SERVICE: Exited Un-successfully from  the  sign up API");
             return "Data cannot be added successfully";
         }
     }

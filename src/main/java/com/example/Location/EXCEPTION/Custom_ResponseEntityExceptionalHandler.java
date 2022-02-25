@@ -6,6 +6,7 @@ import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
@@ -37,7 +38,7 @@ public class Custom_ResponseEntityExceptionalHandler extends ResponseEntityExcep
     public final ResponseEntity<Object> handleUserDataNotCorrect(DuplicateUserFoundException ex, WebRequest request) {
         log.error("Exception :DuplicateUserFoundException");
         ExceptionResponse er = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(er, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RemoteServerException.class)
@@ -46,6 +47,11 @@ public class Custom_ResponseEntityExceptionalHandler extends ResponseEntityExcep
         ExceptionResponse er = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+
+
+
+
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public final ResponseEntity<Object> handleUsernameaNotfound(UsernameNotFoundException ex, WebRequest request) {

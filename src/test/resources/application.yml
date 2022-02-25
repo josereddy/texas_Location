@@ -1,0 +1,27 @@
+spring:
+  data:
+    mongodb:
+      host: ${MONGODB_HOSTNAME:localhost}
+      port: 27017
+      database: project_final_test
+      auto-index-creation: true
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://${DPSQL_HOSTNAME:localhost}:5432/postgres_test
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+        ddl-auto: create
+
+
+Remote:
+  url_update: http://${MENUS_SERVER:localhost}:8082/menus/put/update_location_menus
+  url_delete: http://${MENUS_SERVER:localhost}:8082/menus/delete/delete_location_menus/
+
+
+
+server:
+  port: 8081
+

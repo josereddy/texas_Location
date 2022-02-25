@@ -58,7 +58,6 @@ public class RemoteRequest {
     private HttpHeaders getHeaders() {
         log.info("REMOTE REQUEST: Entered into the getHeaders");
         String credentials = "jose:jose@";
-        System.out.println("credentiasl--->" + credentials);
         String encodeCredential = new String(Base64.encodeBase64(credentials.getBytes()));
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
