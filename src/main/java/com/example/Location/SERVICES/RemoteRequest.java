@@ -27,6 +27,8 @@ public class RemoteRequest {
         log.info("REMOTE REQUEST: ENTERED INTO THE REMOTE REQUEST remote_Update_LOCATION_MENU");
         HttpHeaders headers = getHeaders();
         RestTemplate restTemplate = new RestTemplate();
+
+        System.out.println(url_update+"============================================");
         HttpEntity<Remote_Put_Location_Menus_DTO> requestEntity = new HttpEntity<>(remote_location_menus_dto, headers);
         ResponseEntity<Integer> response_entity = restTemplate.exchange(url_update, HttpMethod.PUT, requestEntity, Integer.class);
 
@@ -42,7 +44,8 @@ public class RemoteRequest {
         HttpHeaders headers = getHeaders();
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<Integer> response_entity = restTemplate.exchange(url_delete + code, HttpMethod.DELETE, requestEntity, Integer.class, 1);
+        System.out.println(url_delete+code+"==================================");
+        ResponseEntity<Integer> response_entity = restTemplate.exchange(url_delete+code, HttpMethod.DELETE, requestEntity, Integer.class, 1);
 
         log.info("REMOTE REQUEST: Exited FROM THE REMOTE REQUEST DELETE_LOCATION_MENU");
         return response_entity.getBody();
