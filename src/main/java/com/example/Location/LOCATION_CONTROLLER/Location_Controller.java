@@ -88,12 +88,12 @@ public class Location_Controller {
     @SecurityRequirement(name = "check")
     @GetMapping("/get/pagination_sort_filtering_location/{offset}/{pageSize}")
     private MappingJacksonValue getProductsWithPagination_SortAndFiltering(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize,
-                                                                           @RequestParam("sort_field") Optional<String> sort_field, @RequestParam ("filter_fields") Optional<Set<String>> filter_fields) {
+                                                                           @RequestParam("sort_field") Optional<String> sort_field, @RequestParam("filter_fields") Optional<Set<String>> filter_fields) {
         log.info("REST CALL: Entered Pagination and Sorting and filtering");
 
-        System.out.println("filter_fields--->"+filter_fields);
+        System.out.println("filter_fields--->" + filter_fields);
         MappingJacksonValue location_list = cr_service.findLocationsWithPaginationSorting_filtering_location(offset, pageSize, sort_field, filter_fields);
-        log.debug("REST CALL:Exited Pagination AND Sorting AND Filtering");
+        log.info("REST CALL:Exited Pagination AND Sorting AND Filtering");
         return location_list;
 
     }
@@ -107,14 +107,14 @@ public class Location_Controller {
     @Parameter(name = "filter_fields", required = false, description = "Filtering Fields  /default=id   /ex:id,restaurantcode.....", in = ParameterIn.QUERY)
     @GetMapping("/get/search_location/{value}")
     public MappingJacksonValue search_value_location(@PathVariable("value") String value, @RequestParam("search_field") Optional<String> search_field,
-                                                     @RequestParam("filter_fields")Optional<Set<String>> filter_fields) {
+                                                     @RequestParam("filter_fields") Optional<Set<String>> filter_fields) {
         log.info("REST API: Entered SEARCH Service");
-        System.out.println("value--->"+value);
-        System.out.println("search_field--->"+search_field);
-        System.out.println("filter_fields--->"+filter_fields);
+        System.out.println("value--->" + value);
+        System.out.println("search_field--->" + search_field);
+        System.out.println("filter_fields--->" + filter_fields);
 
         MappingJacksonValue location_list = cr_service.find_value_location(value, search_field, filter_fields);
-        log.debug("REST API: Exited Search Service");
+        log.info("REST API: Exited Search Service");
         return location_list;
     }
 
@@ -138,7 +138,7 @@ public class Location_Controller {
     public String delete_location(@PathVariable("id") Long id) {
         log.info("REST API: Entered Deleted Location ");
         if (cr_service.delete_service_location(id)) {
-            log.debug("REST API: Exited Deleted Location");
+            log.info("REST API: Exited Deleted Location");
             return "Record with id -->" + id + " deleted";
         } else
             return "Record with id--->" + id + " not deleted";
@@ -160,7 +160,7 @@ public class Location_Controller {
         log.info("REST API:Entered into Api TIME sender");
         System.out.println("Inside the api timing call in get API call");
         Page<Interceptor_Data_DB> data = cr_service.api_timing(offset, pageSize, microservice);
-        log.debug("REST API:Exited FROM API TIME SENDER");
+        log.info("REST API:Exited FROM API TIME SENDER");
         return data;
     }
 
@@ -191,7 +191,7 @@ public class Location_Controller {
 
         log.info("REST API:Inside the check Rest Template Service");
         Integer tested_value = cr_service.check_code_name(code, name);
-        log.debug("REST API:Exited check Rest Template Service");
+        log.info("REST API:Exited check Rest Template Service");
         return tested_value;
     }
 

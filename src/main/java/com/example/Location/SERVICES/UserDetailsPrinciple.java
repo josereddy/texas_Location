@@ -16,7 +16,6 @@ import java.util.List;
 
 @Service
 @Data
-//@AllArgsConstructor
 @NoArgsConstructor
 public class UserDetailsPrinciple implements UserDetails {
 

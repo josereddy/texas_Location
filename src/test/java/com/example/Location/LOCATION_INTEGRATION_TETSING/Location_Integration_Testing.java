@@ -28,18 +28,16 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-
 import java.net.URI;
 import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -67,8 +65,7 @@ public class Location_Integration_Testing {
     @Autowired
     private User_Data_Repository user_data_repository;
 
-///////services
-
+    ///////services
     @MockBean
     private RemoteRequest remoteRequest;
 
@@ -103,9 +100,7 @@ public class Location_Integration_Testing {
         // given - precondition or setup
         String Expected = "Location Data Successfully Added to DataBase";
 
-//
-//        BDDMockito.given(cr_service.save_location(any(Location_Post_DTO.class))).willReturn(true);
-//         when - action or behaviour that we are going test
+        // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(post(URI.create("/locations/post/add_location"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(location_post_dto)));
@@ -113,12 +108,8 @@ public class Location_Integration_Testing {
         // then - verify the result or output using assert statements
         response.andDo(print())
                 .andExpect(status().isOk()).andExpect(content().string(Expected));
-//        System.out.println("--------------->"+result.getResponse().toString());
         assertEquals(Expected, "Location Data Successfully Added to DataBase");
         assertThat("ss").isEqualTo("ss");
-//       verify("ss",times(1)).getClass();
-
-
     }
 
 
@@ -230,6 +221,7 @@ public class Location_Integration_Testing {
         MultiValueMap<String, String> filter_fields = new LinkedMultiValueMap<>();
         filter_fields.add("filter_fields", "restaurantcode");
         String search_field = "restaurantcode";
+
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(get("/locations/get/search_location/{value}", value).params(filter_fields).param("search_field", search_field));
 
@@ -250,6 +242,7 @@ public class Location_Integration_Testing {
         MultiValueMap<String, String> filter_fields = new LinkedMultiValueMap<>();
         filter_fields.add("filter_fields", "restaurantcode");
         String search_field = "restaurantcode";
+
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(get("/locations/get/search_location/{value}", value).params(filter_fields).param("search_field", search_field));
 
@@ -271,8 +264,10 @@ public class Location_Integration_Testing {
         MultiValueMap<String, String> filter_fields = new LinkedMultiValueMap<>();
         filter_fields.add("filter_fields", "restaurant");
         String search_field = "field not valid";
+
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(get("/locations/get/search_location/{value}", value).params(filter_fields).param("search_field", search_field));
+
         // then - verify the result or output using assert statements
         response.andDo(print()).andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", CoreMatchers.is("Field:  " + search_field + " Not present please Select valid Field ex:id or restaurant_code")));
@@ -288,7 +283,6 @@ public class Location_Integration_Testing {
     public void Location_update_test() throws Exception {
 
         // given - precondition or setup
-
         given(remoteRequest.remote_update_location_menus(any(Remote_Put_Location_Menus_DTO.class))).willReturn(0);
 
         location_repository.save(location_mdb);
@@ -302,6 +296,7 @@ public class Location_Integration_Testing {
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(put("/locations/put/update_location").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(location_put_dto)));
+
         // then - verify the result or output using assert statements
         response.andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(expectedresult));
@@ -311,11 +306,10 @@ public class Location_Integration_Testing {
     @WithMockUser(username = "jose", password = "jose@", roles = "ADMIN")
     @DisplayName("PUT_LOCATION_update_TEST:2 EXCEPTION IF Already code exist")
     @Test
-   @Order(10)
+    @Order(10)
     public void Location_update_test2() throws Exception {
 
         // given - precondition or setup
-
         given(remoteRequest.remote_update_location_menus(any(Remote_Put_Location_Menus_DTO.class))).willReturn(0);
         List<Location_MDB> list_location_mdb = new ArrayList();
         list_location_mdb.add(location_mdb);
@@ -332,6 +326,7 @@ public class Location_Integration_Testing {
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(put("/locations/put/update_location").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(location_put_dto)));
+
         // then - verify the result or output using assert statements
         response.andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", CoreMatchers.is(message)));
@@ -344,7 +339,6 @@ public class Location_Integration_Testing {
     public void Location_update_test3() throws Exception {
 
         // given - precondition or setup
-
         given(remoteRequest.remote_update_location_menus(any(Remote_Put_Location_Menus_DTO.class))).willReturn(0);
 
         location_repository.save(location_mdb);
@@ -354,6 +348,7 @@ public class Location_Integration_Testing {
         location_put_dto.setRestaurant_name("nextnext");
         location_put_dto.setRestaurant_pin_code("444444");
         String message = "Location with ID " + location_put_dto.getId() + " not present";
+
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(put("/locations/put/update_location").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(location_put_dto)));
@@ -374,12 +369,12 @@ public class Location_Integration_Testing {
     public void Location_delete_test() throws Exception {
 
         // given - precondition or setup
-
         given(remoteRequest.remote_delete_location_menus(any(String.class))).willReturn(0);
 
         location_repository.save(location_mdb);
         Long id = location_mdb.getId();
         String expectedresult = "Record with id -->" + id + " deleted";
+
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(delete("/locations/delete/delete_location/{id}", id));
 
@@ -397,12 +392,11 @@ public class Location_Integration_Testing {
     public void Location_delete_test2() throws Exception {
 
         // given - precondition or setup
-
         given(remoteRequest.remote_delete_location_menus(any(String.class))).willReturn(0);
-
         location_repository.save(location_mdb);
         Long id = 0l;
         String expectedresult = "Location with ID " + id + " not present";
+
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(delete("/locations/delete/delete_location/{id}", id));
 
@@ -440,7 +434,6 @@ public class Location_Integration_Testing {
     }
 
 
-//    @WithMockUser(username = "jose", password = "jose@", roles = "ADMIN")
     @DisplayName("POST_USER SERVICE TEST:1 default")
     @Test
     @Order(15)
@@ -448,7 +441,6 @@ public class Location_Integration_Testing {
 
 
         // given - precondition or setup
-
         User_Data_DTO user_data_dto = new User_Data_DTO();
         user_data_dto.setUser_password("vijay@");
         user_data_dto.setUser_name("vijay");
@@ -467,9 +459,6 @@ public class Location_Integration_Testing {
     }
 
 
-
-
-//    @WithMockUser(username = "jose", password = "jose@", roles = "ADMIN")
     @DisplayName("POST_USER SERVICE TEST:2 Exception Duplicate user")
     @Test
     @Order(16)
@@ -477,7 +466,6 @@ public class Location_Integration_Testing {
 
 
         // given - precondition or setup
-
         User_Data_DB user_data_db1 = new User_Data_DB();
         user_data_db1.setUserpassword((new BCryptPasswordEncoder().encode("vijay@")));
         user_data_db1.setUsername("vijay");

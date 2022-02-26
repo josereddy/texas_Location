@@ -27,6 +27,12 @@ public class Custom_ResponseEntityExceptionalHandler extends ResponseEntityExcep
 
     private static final Logger log = LogManager.getLogger(Custom_ResponseEntityExceptionalHandler.class.getName());
 
+
+
+
+    //////////custom exceptions
+
+
     @ExceptionHandler(UserDataIncorrectFormatException.class)
     public final ResponseEntity<Object> handleUserDataNotCorrect(UserNotFoundException ex, WebRequest request) {
         log.error("Exception :UserDataIncorrectFormatException");
@@ -45,20 +51,17 @@ public class Custom_ResponseEntityExceptionalHandler extends ResponseEntityExcep
     public final ResponseEntity<Object> handleRemoteServerException(RemoteServerException ex, WebRequest request) {
         log.error("Exception :RemoteServerException");
         ExceptionResponse er = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(er, HttpStatus.BAD_REQUEST);
     }
-
-
-
-
 
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public final ResponseEntity<Object> handleUsernameaNotfound(UsernameNotFoundException ex, WebRequest request) {
         log.error("Exception :UsernamenotFoundException");
         ExceptionResponse er = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(er, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(NoFieldPresentException.class)
     public final ResponseEntity<Object> handleNOFieldPresentException(NoFieldPresentException ex, WebRequest request) {
         log.error("Exception :NoFieldPresentException");

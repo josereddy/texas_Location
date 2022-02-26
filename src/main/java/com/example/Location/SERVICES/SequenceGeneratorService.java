@@ -35,7 +35,7 @@ public class SequenceGeneratorService {
         Update update = new Update().inc("seq", 1);
         DatabaseSequence_MDB counter;
         counter = mongoOperations.findAndModify(query, update, options().returnNew(true).upsert(true), DatabaseSequence_MDB.class);
-        log.debug("SEQUENCE GENERATOR SERVICE:Exited from the generate seq service ");
+        log.info("SEQUENCE GENERATOR SERVICE:Exited from the generate seq service ");
         return !Objects.isNull(counter) ? counter.getSeq() : 1;
 
     }

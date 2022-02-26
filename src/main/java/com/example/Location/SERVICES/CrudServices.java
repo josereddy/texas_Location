@@ -15,12 +15,10 @@ import com.example.Location.REPOSITORY.User_Data_Repository;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,20 +34,17 @@ import java.util.Set;
 
 
 @Component
-//@NoArgsConstructor
 @Data
-//@AllArgsConstructor
 public class CrudServices {
 
 
-    public CrudServices(Location_Repository location_repository,Check_ConvertService cc_service
-    ,User_Data_Repository user_repository,RemoteRequest rr_service,Interceptor_Repository interceptor_repository)
-    {
+    public CrudServices(Location_Repository location_repository, Check_ConvertService cc_service
+            , User_Data_Repository user_repository, RemoteRequest rr_service, Interceptor_Repository interceptor_repository) {
         this.location_repository = location_repository;
         this.cc_service = cc_service;
         this.user_repository = user_repository;
         this.interceptor_repository = interceptor_repository;
-        this.rr_service =    rr_service;
+        this.rr_service = rr_service;
     }
 
     //logger
@@ -57,17 +52,12 @@ public class CrudServices {
 
 
     ///Repositories
-//    @Autowired
     private Location_Repository location_repository;
-//    @Autowired
     private User_Data_Repository user_repository;
-//    @Autowired
     private Interceptor_Repository interceptor_repository;
 
     //Services
-//    @Autowired
     private Check_ConvertService cc_service;
-//    @Autowired
     private RemoteRequest rr_service;
 
 
@@ -87,10 +77,9 @@ public class CrudServices {
 
             try {
 
-                log.info("The restaurant code is :"+location_mdb.getRestaurantcode());
+                log.info("The restaurant code is :" + location_mdb.getRestaurantcode());
                 location_repository.save(location_mdb);
-            }
-            catch (DataIntegrityViolationException e) {
+            } catch (DataIntegrityViolationException e) {
                 throw new DuplicateLocationCodeFoundException("RestaurantCode Already In Use:  Please Use Different Code Adding Location");
             }
 
@@ -101,9 +90,6 @@ public class CrudServices {
             return false;
         }
     }
-
-
-
 
 
     //PAGINATION SERVICE
@@ -124,8 +110,6 @@ public class CrudServices {
 
     public MappingJacksonValue find_value_location(String value, Optional<String> search_field, Optional<Set<String>> filter_fields) {
         log.info("CRUD_SERVICE: Entered into the GET BY ID SERVICE");
-
-        System.out.println("inside the crud search");
         if (search_field.orElse("id").equals("restaurantcode")) {
             location_mdb = location_repository.findByRestaurantcode(value);
         } else if (search_field.orElse("id").equals("id")) {
@@ -199,7 +183,6 @@ public class CrudServices {
             location_repository.deleteById(id);
             log.info("CRUD_SERVICE: Exited into DELETED SERVICE");
             return true;
-
         }
         log.info("CRUD_SERVICE: Exited unsuccessfully from  DELETED SERVICE");
         return false;
@@ -243,8 +226,6 @@ public class CrudServices {
 
 
         log.info("CRUD SERVICE: Inside the user signup service");
-
-        System.out.println("inside --------------------------------");
         user_db = cc_service.convertUser(user_data_dto);
         user_db.setUserpassword((new BCryptPasswordEncoder().encode(user_data_dto.getUser_password())));
         try {
