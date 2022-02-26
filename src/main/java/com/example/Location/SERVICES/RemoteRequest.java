@@ -18,7 +18,7 @@ public class RemoteRequest {
     @Value("${Remote.url_update}")
     private String url_update;
 
-    @Value("$(Remote.url_delete}")
+    @Value("${Remote.url_delete}")
     private String url_delete;
 
     /////update function to location-menu api
@@ -28,7 +28,6 @@ public class RemoteRequest {
         HttpHeaders headers = getHeaders();
         RestTemplate restTemplate = new RestTemplate();
 
-        System.out.println(url_update+"============================================");
         HttpEntity<Remote_Put_Location_Menus_DTO> requestEntity = new HttpEntity<>(remote_location_menus_dto, headers);
         ResponseEntity<Integer> response_entity = restTemplate.exchange(url_update, HttpMethod.PUT, requestEntity, Integer.class);
 
@@ -44,7 +43,6 @@ public class RemoteRequest {
         HttpHeaders headers = getHeaders();
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        System.out.println(url_delete+code+"==================================");
         ResponseEntity<Integer> response_entity = restTemplate.exchange(url_delete+code, HttpMethod.DELETE, requestEntity, Integer.class, 1);
 
         log.info("REMOTE REQUEST: Exited FROM THE REMOTE REQUEST DELETE_LOCATION_MENU");
