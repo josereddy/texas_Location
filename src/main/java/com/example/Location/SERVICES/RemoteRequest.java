@@ -36,7 +36,7 @@ public class RemoteRequest {
     }
 
 
-    /////delete function  to location- menu api
+    ////delete function  to location- menu api
     public Integer remote_delete_location_menus(String code) {
 
         log.info("REMOTE REQUEST: ENTERED INTO THE REMOTE REQUEST DELETE_LOCATION_MENU");
